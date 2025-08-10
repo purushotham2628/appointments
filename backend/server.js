@@ -61,7 +61,7 @@ try {
   console.log('✅ Database initialized successfully.');
 
   // Start server
-  app.listen(PORT, () => {
+  app.listen(PORT, '0.0.0.0', () => {
     console.log(`🏥 Clinic API server running on port ${PORT}`);
     console.log(`📊 Health check: http://localhost:${PORT}/api/health`);
   });

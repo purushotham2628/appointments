@@ -1,3 +1,4 @@
+
 import React from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from './context/AuthContext'
@@ -17,15 +18,15 @@ function App() {
       <Routes>
         <Route 
           path="/login" 
-          element={user ? <Navigate to="/dashboard" replace /> : <Login />} 
+          element={user ? <Navigate to="/dashboard" /> : <Login />} 
         />
         <Route 
           path="/dashboard" 
-          element={user ? <Dashboard /> : <Navigate to="/login" replace />} 
+          element={user ? <Dashboard /> : <Navigate to="/login" />} 
         />
         <Route 
           path="/" 
-          element={<Navigate to={user ? "/dashboard" : "/login"} replace />} 
+          element={<Navigate to={user ? "/dashboard" : "/login"} />} 
         />
       </Routes>
     </div>
