@@ -1,0 +1,45 @@
+[plugin:vite:react-babel] C:\Users\purus\OneDrive\Desktop\project\frontend\src\context\AuthContext.jsx: Identifier 'AuthContext' has already been declared. (70:6)
+  73 |   const context = useContext(AuthContext)
+C:/Users/purus/OneDrive/Desktop/project/frontend/src/context/AuthContext.jsx:70:6
+71 |  
+72 |  export const useAuth = () => {
+73 |    const context = useContext(AuthContext)
+   |         ^
+74 |    if (!context) {
+75 |      throw new Error('useAuth must be used within an AuthProvider')
+    at constructor (C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\@babel\parser\lib\index.js:367:19)
+    at JSXParserMixin.raise (C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\@babel\parser\lib\index.js:6627:19)
+    at ScopeHandler.checkRedeclarationInScope (C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\@babel\parser\lib\index.js:1644:19)
+    at ScopeHandler.declareName (C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\@babel\parser\lib\index.js:1610:12)
+    at JSXParserMixin.declareNameFromIdentifier (C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\@babel\parser\lib\index.js:7591:16)
+    at JSXParserMixin.checkIdentifier (C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\@babel\parser\lib\index.js:7587:12)
+    at JSXParserMixin.checkLVal (C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\@babel\parser\lib\index.js:7526:12)
+    at JSXParserMixin.parseVarId (C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\@babel\parser\lib\index.js:13412:10)
+    at JSXParserMixin.parseVar (C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\@babel\parser\lib\index.js:13383:12)
+    at JSXParserMixin.parseVarStatement (C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\@babel\parser\lib\index.js:13230:10)
+    at JSXParserMixin.parseStatementContent (C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\@babel\parser\lib\index.js:12851:23)
+    at JSXParserMixin.parseStatementLike (C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\@babel\parser\lib\index.js:12767:17)
+    at JSXParserMixin.parseModuleItem (C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\@babel\parser\lib\index.js:12744:17)
+    at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\@babel\parser\lib\index.js:13316:36)
+    at JSXParserMixin.parseBlockBody (C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\@babel\parser\lib\index.js:13309:10)
+    at JSXParserMixin.parseProgram (C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\@babel\parser\lib\index.js:12625:10)
+    at JSXParserMixin.parseTopLevel (C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\@babel\parser\lib\index.js:12615:25)
+    at JSXParserMixin.parse (C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\@babel\parser\lib\index.js:14492:10)
+    at parse (C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\@babel\parser\lib\index.js:14526:38)
+    at parser (C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\@babel\core\lib\parser\index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\@babel\core\lib\transformation\normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\@babel\core\lib\transformation\index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\@babel\core\lib\transform.js:22:33)
+    at transform.next (<anonymous>)
+    at step (C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\gensync\index.js:261:32)
+    at C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\gensync\index.js:273:13
+    at async.call.result.err.err (C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\gensync\index.js:223:11)
+    at C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\gensync\index.js:189:28
+    at C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\@babel\core\lib\gensync-utils\async.js:67:7
+    at C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\gensync\index.js:113:33
+    at step (C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\gensync\index.js:287:14)
+    at C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\gensync\index.js:273:13
+    at async.call.result.err.err (C:\Users\purus\OneDrive\Desktop\project\frontend\node_modules\gensync\index.js:223:11
