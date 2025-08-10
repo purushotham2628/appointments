@@ -1,119 +1,44 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import { authService } from '../services/api'
 
-const AuthContext = createContext({})
-
-export const useAuth = () => {
-  const context = useContext(AuthContext)
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider')
-  }
-  return context
-}
-
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const token = localStorage.getItem('token')
-    const userData = localStorage.getItem('user')
-    
-    if (token && userData) {
-      try {
-        setUser(JSON.parse(userData))
-      } catch (error) {
-        console.error('Failed to parse user data:', error)
-        localStorage.removeItem('token')
-        localStorage.removeItem('user')
-      }
-    }
-    setLoading(false)
-  }, [])
-
-  const login = async (credentials) => {
-    try {
-      const response = await authService.login(credentials)
-      const { token, user: userData } = response
-      
-      localStorage.setItem('token', token)
-      localStorage.setItem('user', JSON.stringify(userData))
-      setUser(userData)
-      
-      return { success: true }
-    } catch (error) {
-      return { success: false, error: error.message }
-    }
-  }
-
-  const logout = () => {
-    localStorage.removeItem('token')
-    localStorage.removeItem('user')
-    setUser(null)
-  }
-
-  const value = {
-    user,
-    loading,
-    login,
-    logout,
-  }
-
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  )
-}
-
 const AuthContext = createContext()
 
-export const useAuth = () => {
-  const context = useContext(AuthContext)
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider')
-  }
-  return context
-}
-
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Check for stored token on app load
     const token = localStorage.getItem('token')
-    const userData = localStorage.getItem('user')
-    
-    if (token && userData) {
-      try {
-        const parsedUser = JSON.parse(userData)
-        setUser(parsedUser)
-        authService.setToken(token)
-      } catch (error) {
-        localStorage.removeItem('token')
-        localStorage.removeItem('user')
-      }
+    if (token) {
+      // Verify token is still valid
+      authService.getProfile()
+        .then(response => {
+          setUser(response.data.user)
+        })
+        .catch(() => {
+          localStorage.removeItem('token')
+        })
+        .finally(() => {
+          setLoading(false)
+        })
+    } else {
+      setLoading(false)
     }
-    
-    setLoading(false)
   }, [])
 
   const login = async (email, password) => {
     try {
-      const response = await authService.login(email, password)
-      
-      if (response.token && response.user) {
-        localStorage.setItem('token', response.token)
-        localStorage.setItem('user', JSON.stringify(response.user))
-        authService.setToken(response.token)
-        setUser(response.user)
+      const response = await authService.login({ email, password })
+
+      if (response.data.success) {
+        localStorage.setItem('token', response.data.token)
+        setUser(response.data.user)
         return { success: true }
+      } else {
+        return { success: false, error: response.data.message }
       }
-      
-      return { success: false, error: 'Invalid response from server' }
     } catch (error) {
+      console.error('Login error:', error)
       return { 
         success: false, 
         error: error.response?.data?.message || 'Login failed' 
@@ -121,16 +46,35 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
+  const register = async (userData) => {
+    try {
+      const response = await authService.register(userData)
+
+      if (response.data.success) {
+        localStorage.setItem('token', response.data.token)
+        setUser(response.data.user)
+        return { success: true }
+      } else {
+        return { success: false, error: response.data.message }
+      }
+    } catch (error) {
+      console.error('Registration error:', error)
+      return { 
+        success: false, 
+        error: error.response?.data?.message || 'Registration failed' 
+      }
+    }
+  }
+
   const logout = () => {
     localStorage.removeItem('token')
-    localStorage.removeItem('user')
-    authService.setToken(null)
     setUser(null)
   }
 
   const value = {
     user,
     login,
+    register,
     logout,
     loading
   }
@@ -140,4 +84,12 @@ export const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   )
+}
+
+export const useAuth = () => {
+  const context = useContext(AuthContext)
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider')
+  }
+  return context
 }
