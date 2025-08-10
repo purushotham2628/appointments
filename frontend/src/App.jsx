@@ -17,16 +17,16 @@ function App() {
     <div className="app">
       <Routes>
         <Route 
+          path="/" 
+          element={user ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />} 
+        />
+        <Route 
           path="/login" 
-          element={user ? <Navigate to="/dashboard" /> : <Login />} 
+          element={!user ? <Login /> : <Navigate to="/dashboard" replace />} 
         />
         <Route 
           path="/dashboard" 
-          element={user ? <Dashboard /> : <Navigate to="/login" />} 
-        />
-        <Route 
-          path="/" 
-          element={<Navigate to={user ? "/dashboard" : "/login"} />} 
+          element={user ? <Dashboard /> : <Navigate to="/login" replace />} 
         />
       </Routes>
     </div>
