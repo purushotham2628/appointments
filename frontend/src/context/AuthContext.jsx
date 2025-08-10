@@ -41,9 +41,10 @@ export const AuthProvider = ({ children }) => {
       
       return { success: false, error: 'Invalid response from server' }
     } catch (error) {
+      console.error('Login error:', error)
       return { 
         success: false, 
-        error: error.response?.data?.message || 'Login failed' 
+        error: error.message || 'Login failed' 
       }
     }
   }
