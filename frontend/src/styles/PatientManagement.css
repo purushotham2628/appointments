@@ -1,0 +1,106 @@
+.patient-management {
+  height: 100%;
+}
+
+.search-bar {
+  margin-bottom: 24px;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: white;
+}
+
+.search-bar input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.patients-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.patient-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.patient-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.patient-header {
+  margin-bottom: 16px;
+}
+
+.patient-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.patient-details {
+  margin-bottom: 16px;
+}
+
+.patient-details p {
+  margin-bottom: 6px;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.patient-details strong {
+  color: #374151;
+  font-weight: 500;
+}
+
+.patient-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.patient-actions button {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+.patient-form .form-group {
+  margin-bottom: 20px;
+}
+
+.patient-form input {
+  height: 48px;
+}
+
+@media (max-width: 768px) {
+  .patients-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .patient-actions {
+    flex-direction: column;
+  }
+}
+
+/* Add some visual distinction for patients without email */
+.patient-card:not([data-has-email="true"]) {
+  border-left: 4px solid #f59e0b;
+}
+
+.patient-card[data-has-email="true"] {
+  border-left: 4px solid #10b981;
+}

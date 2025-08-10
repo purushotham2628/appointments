@@ -1,0 +1,137 @@
+.doctor-management {
+  height: 100%;
+}
+
+.search-filters {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.search-filters input {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  min-width: 200px;
+  flex: 1;
+}
+
+.search-filters input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.doctors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.doctor-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.doctor-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.doctor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.doctor-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.doctor-details {
+  margin-bottom: 16px;
+}
+
+.doctor-details p {
+  margin-bottom: 6px;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.doctor-details strong {
+  color: #374151;
+  font-weight: 500;
+}
+
+.doctor-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.doctor-actions button {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+.doctor-form .form-group {
+  margin-bottom: 20px;
+}
+
+.doctor-form input,
+.doctor-form select {
+  height: 48px;
+}
+
+.doctor-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+@media (max-width: 768px) {
+  .search-filters {
+    flex-direction: column;
+  }
+  
+  .search-filters input {
+    width: 100%;
+    min-width: auto;
+  }
+  
+  .doctors-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .doctor-header {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .doctor-actions {
+    flex-direction: column;
+  }
+}
+
+/* Gender-specific styling */
+.gender-badge {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.doctor-card .gender-badge {
+  background-color: #e5e7eb;
+  color: #374151;
+}

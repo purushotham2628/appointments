@@ -1,0 +1,20 @@
+{
+  "name": "clinic-front-desk-system",
+  "version": "1.0.0",
+  "description": "Full-stack front desk system for clinic management",
+  "scripts": {
+    "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "dev": "concurrently \"npm run backend:dev\" \"npm run frontend:dev\"",
+    "backend:dev": "cd backend && npm run dev",
+    "frontend:dev": "cd frontend && npm run dev",
+    "backend:start": "cd backend && npm start",
+    "frontend:build": "cd frontend && npm run build",
+    "seed": "cd backend && npm run seed"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "keywords": ["clinic", "front-desk", "management", "react", "express", "sqlite"],
+  "author": "Clinic Management System",
+  "license": "MIT"
+}
