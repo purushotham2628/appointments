@@ -1,8 +1,9 @@
+
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
-const db = require('../models/database');
+const { db } = require('../models/database');
 
 const router = express.Router();
 
@@ -77,7 +78,7 @@ router.post('/login', [
         email: user.email, 
         role: user.role 
       },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET || 'your-secret-key',
       { expiresIn: '8h' }
     );
 
