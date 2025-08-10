@@ -2,9 +2,10 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const path = require('path');
+const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
-const { initializeDatabase, db } = require('./models/database'); // Assuming db is exported
+const { initializeDatabase, db } = require('./models/database');
 const authRoutes = require('./routes/auth');
 const doctorRoutes = require('./routes/doctors');
 const appointmentRoutes = require('./routes/appointments');
@@ -13,7 +14,7 @@ const patientRoutes = require('./routes/patients');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const HOST = '0.0.0.0'; // Explicitly set host for wider accessibility
+const HOST = '0.0.0.0';
 
 // Middleware
 app.use(helmet());
@@ -66,55 +67,38 @@ app.use('*', (req, res) => {
   res.status(404).json({ message: 'Route not found' });
 });
 
-// Initialize DB and start server
-// Initialize DB (synchronous)
-try {
-  initializeDatabase();
-  console.log('✅ Database initialized successfully.');
-
-  // Start server
-  app.listen(PORT, HOST, () => {
-    console.log(`🏥 Clinic API server running on port ${PORT}`);
-    console.log(`📊 Health check: http://${HOST}:${PORT}/api/health`);
-  });
-} catch (err) {
-  console.error('❌ Failed to initialize database:', err.message);
-  process.exit(1);
-}
-
-// The following is a replacement for the server start logic to include default user creation
-const bcrypt = require('bcryptjs'); // Require bcryptjs for hashing
-
-// Initialize database
-initializeDatabase()
-  .then(async () => {
+// Initialize database and start server
+async function startServer() {
+  try {
+    // Initialize database
+    initializeDatabase();
     console.log('✅ Database initialized successfully.');
 
     // Create default users if they don't exist
-    try {
-      const existingAdmin = db.prepare('SELECT id FROM users WHERE email = ?').get('admin@clinic.com');
+    const existingAdmin = db.prepare('SELECT id FROM users WHERE email = ?').get('admin@clinic.com');
 
-      if (!existingAdmin) {
-        const adminHash = await bcrypt.hash('admin123', 10);
-        const frontdeskHash = await bcrypt.hash('frontdesk123', 10);
+    if (!existingAdmin) {
+      const adminHash = await bcrypt.hash('admin123', 10);
+      const frontdeskHash = await bcrypt.hash('frontdesk123', 10);
 
-        db.prepare('INSERT INTO users (name, email, password_hash, role) VALUES (?, ?, ?, ?)').run('Admin User', 'admin@clinic.com', adminHash, 'admin');
-        db.prepare('INSERT INTO users (name, email, password_hash, role) VALUES (?, ?, ?, ?)').run('Front Desk User', 'frontdesk@clinic.com', frontdeskHash, 'front_desk');
+      db.prepare('INSERT INTO users (name, email, password_hash, role) VALUES (?, ?, ?, ?)').run('Admin User', 'admin@clinic.com', adminHash, 'admin');
+      db.prepare('INSERT INTO users (name, email, password_hash, role) VALUES (?, ?, ?, ?)').run('Front Desk User', 'frontdesk@clinic.com', frontdeskHash, 'front_desk');
 
-        console.log('👤 Default users created');
-        console.log('   Admin: admin@clinic.com / admin123');
-        console.log('   Front Desk: frontdesk@clinic.com / frontdesk123');
-      }
-    } catch (error) {
-      console.error('❌ Failed to create default users:', error);
+      console.log('👤 Default users created');
+      console.log('   Admin: admin@clinic.com / admin123');
+      console.log('   Front Desk: frontdesk@clinic.com / frontdesk123');
     }
 
+    // Start server
     app.listen(PORT, HOST, () => {
       console.log(`🏥 Clinic API server running on port ${PORT}`);
       console.log(`📊 Health check: http://${HOST}:${PORT}/api/health`);
     });
-  })
-  .catch(error => {
-    console.error('❌ Failed to initialize database:', error);
+
+  } catch (error) {
+    console.error('❌ Failed to initialize:', error);
     process.exit(1);
-  });
+  }
+}
+
+startServer();
