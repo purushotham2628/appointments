@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import { authService } from '../services/api'
 
@@ -16,18 +17,18 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Check for existing token in localStorage
-    const token = localStorage.getItem('clinic_token')
-    const userData = localStorage.getItem('clinic_user')
+    // Check for stored token on app load
+    const token = localStorage.getItem('token')
+    const userData = localStorage.getItem('user')
     
     if (token && userData) {
       try {
-        setUser(JSON.parse(userData))
+        const parsedUser = JSON.parse(userData)
+        setUser(parsedUser)
         authService.setToken(token)
       } catch (error) {
-        // Clear invalid data
-        localStorage.removeItem('clinic_token')
-        localStorage.removeItem('clinic_user')
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
       }
     }
     
@@ -39,14 +40,14 @@ export const AuthProvider = ({ children }) => {
       const response = await authService.login(email, password)
       
       if (response.token && response.user) {
-        localStorage.setItem('clinic_token', response.token)
-        localStorage.setItem('clinic_user', JSON.stringify(response.user))
+        localStorage.setItem('token', response.token)
+        localStorage.setItem('user', JSON.stringify(response.user))
         authService.setToken(response.token)
         setUser(response.user)
         return { success: true }
-      } else {
-        return { success: false, error: 'Invalid response from server' }
       }
+      
+      return { success: false, error: 'Invalid response from server' }
     } catch (error) {
       return { 
         success: false, 
@@ -56,8 +57,8 @@ export const AuthProvider = ({ children }) => {
   }
 
   const logout = () => {
-    localStorage.removeItem('clinic_token')
-    localStorage.removeItem('clinic_user')
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
     authService.setToken(null)
     setUser(null)
   }

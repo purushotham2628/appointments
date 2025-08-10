@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import '../styles/Login.css'
@@ -79,26 +80,26 @@ const Login = () => {
             className="login-button"
             disabled={loading}
           >
-            {loading ? 'Signing In...' : 'Sign In'}
+            {loading ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
 
-        <div className="demo-credentials">
-          <h3>Demo Credentials</h3>
+        <div className="demo-accounts">
+          <h3>Demo Accounts</h3>
           <div className="demo-buttons">
             <button 
-              type="button"
-              className="demo-button"
+              type="button" 
+              className="demo-button admin"
               onClick={() => handleDemoLogin('admin@clinic.com', 'admin123')}
             >
-              Admin Login
+              Admin Demo
             </button>
             <button 
-              type="button"
-              className="demo-button"
+              type="button" 
+              className="demo-button staff"
               onClick={() => handleDemoLogin('frontdesk@clinic.com', 'frontdesk123')}
             >
-              Front Desk Login
+              Front Desk Demo
             </button>
           </div>
         </div>
