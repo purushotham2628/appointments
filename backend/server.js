@@ -17,9 +17,19 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(helmet());
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production'
-    ? ['https://your-frontend-domain.com']
-    : ['http://localhost:5173', 'http://localhost:3000'],
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    // Allow localhost and replit domains
+    if (origin.includes('localhost') || 
+        origin.includes('replit.') || 
+        origin.includes('repl.co')) {
+      return callback(null, true);
+    }
+    
+    callback(new Error('Not allowed by CORS'));
+  },
   credentials: true
 }));
 app.use(express.json({ limit: '10mb' }));

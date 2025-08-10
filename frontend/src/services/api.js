@@ -1,6 +1,5 @@
-
 const API_BASE_URL = import.meta.env.VITE_API_URL || (
-  window.location.hostname.includes('replit') 
+  window.location.hostname.includes('replit')
     ? `https://${window.location.hostname.replace(/:\d+$/, '')}:5000/api`
     : 'http://localhost:5000/api'
 )
@@ -8,6 +7,7 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || (
 class ApiService {
   constructor() {
     this.token = localStorage.getItem('token')
+    console.log('API Base URL:', API_BASE_URL)
   }
 
   setToken(token) {
@@ -21,44 +21,33 @@ class ApiService {
 
   async request(endpoint, options = {}) {
     const url = `${API_BASE_URL}${endpoint}`
+    console.log('Making request to:', url)
 
     const config = {
       headers: {
         'Content-Type': 'application/json',
+        ...(this.token && { Authorization: `Bearer ${this.token}` }),
         ...options.headers
       },
       ...options
     }
 
-    if (this.token) {
-      config.headers['Authorization'] = `Bearer ${this.token}`
-    }
-
     try {
       const response = await fetch(url, config)
-      const data = await response.json()
+      console.log('Response status:', response.status)
 
       if (!response.ok) {
-        throw {
-          response: {
-            status: response.status,
-            data: data
-          }
-        }
+        const errorData = await response.json().catch(() => ({}))
+        console.error('API Error:', errorData)
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`)
       }
 
+      const data = await response.json()
+      console.log('API Response:', data)
       return data
     } catch (error) {
-      if (error.response) {
-        throw error
-      }
-
-      throw {
-        response: {
-          status: 500,
-          data: { message: 'Network error' }
-        }
-      }
+      console.error('Network error:', error)
+      throw error
     }
   }
 

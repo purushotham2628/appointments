@@ -6,6 +6,15 @@ import App from './App.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
 import './styles/index.css'
 
+// Add error handling
+window.addEventListener('error', (e) => {
+  console.error('Global error:', e.error);
+});
+
+window.addEventListener('unhandledrejection', (e) => {
+  console.error('Unhandled promise rejection:', e.reason);
+});
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
